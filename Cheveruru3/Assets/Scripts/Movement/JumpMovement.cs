@@ -17,6 +17,8 @@ public class JumpMovement : BaseMovement
     private float jumpRequestBufferTime => movementData.JumpRequestBufferTime;
     private float coyoteTime => movementData.CoyoteTime;
     private float jumpApexGravityTime => movementData.JumpApexGravityTime;
+    private float terminalVelocity => movementData.TerminalVelocity;
+    private GameObject cameraTarget => movementManager.CameraTarget;
 
     private float currentGravity;
     private float currentYForce;
@@ -24,8 +26,10 @@ public class JumpMovement : BaseMovement
     private float remainingJumpRequestBufferTime;
     private float remainingCoyoteTime;
     private float remainingJumpApexGravityTime;
-    private bool isGrounded;
-    private bool hasReachedApex;
+    private bool isGrounded = false;
+    private bool hasReachedApex = false;
+    private float targetCameraYPos;
+    private float initialCameraYPos;
 
     public override void Initialize()
     {
@@ -34,6 +38,8 @@ public class JumpMovement : BaseMovement
 
         actions.Character.Jump.performed += Jump_performed;
         actions.Character.Jump.canceled += Jump_canceled;
+        initialCameraYPos = movementManager.CameraTarget.transform.localPosition.y;
+        currentGravity = defaultGravity;
     }
 
     private void Jump_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -51,7 +57,16 @@ public class JumpMovement : BaseMovement
         CheckForGround();
         ApplyGravity();
         CheckForJump();
+        MoveCameraTarget();
         Movement = new Vector3(0, currentYForce, 0);
+    }
+
+    private void MoveCameraTarget()
+    {
+        float targetY = isGrounded ? initialCameraYPos : targetCameraYPos;
+        float distance = Mathf.Abs(cameraTarget.transform.position.y - targetY);
+        float newY = Mathf.MoveTowards(cameraTarget.transform.position.y, targetY, distance * Time.deltaTime);
+        movementManager.CameraTarget.transform.position = new Vector3(movementManager.Character.transform.position.x, newY, movementManager.Character.transform.position.z);
     }
 
     private void ApplyGravity()
@@ -59,7 +74,8 @@ public class JumpMovement : BaseMovement
         if (!isGrounded)
         {
             currentYForce += currentGravity * Time.deltaTime;
-            if(!hasReachedApex && (currentYForce < 0))
+            currentYForce = Mathf.Max(currentYForce, terminalVelocity);
+            if (!hasReachedApex && (currentYForce < 0))
             {
                 currentGravity = jumpApexGravity;
                 remainingJumpApexGravityTime = jumpApexGravityTime;
@@ -86,6 +102,7 @@ public class JumpMovement : BaseMovement
             {
                 remainingCoyoteTime = coyoteTime;
                 hasReachedApex = false;
+                initialCameraYPos = movementManager.Character.transform.position.y;
             }
         }
     }
@@ -97,7 +114,6 @@ public class JumpMovement : BaseMovement
             if (isGrounded || remainingCoyoteTime > 0)
             {
                 Jump();
-
             }
         }
 
@@ -111,5 +127,6 @@ public class JumpMovement : BaseMovement
         remainingTimeToGroundCheck = timeBeforeGroundCheck;
         remainingCoyoteTime = 0;
         isGrounded = false;
+        targetCameraYPos = movementManager.CameraTarget.transform.position.y;
     }
 }

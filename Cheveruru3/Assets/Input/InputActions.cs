@@ -44,6 +44,15 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""processors"": ""NormalizeVector2"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""13e94b6b-8f46-46d9-b2f6-15172c9a3e69"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -105,7 +114,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Left"",
                     ""id"": ""1413c09a-54ed-4301-8d3f-0129d6b626f5"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -116,7 +125,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Right"",
                     ""id"": ""0c4104aa-f25c-48b5-8c0d-7eaebf69c081"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -189,6 +198,17 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94169c2e-01f0-4948-9b77-f1f315a48e8e"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -199,6 +219,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         m_Character = asset.FindActionMap("Character", throwIfNotFound: true);
         m_Character_Jump = m_Character.FindAction("Jump", throwIfNotFound: true);
         m_Character_Movement = m_Character.FindAction("Movement", throwIfNotFound: true);
+        m_Character_Look = m_Character.FindAction("Look", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -260,12 +281,14 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private ICharacterActions m_CharacterActionsCallbackInterface;
     private readonly InputAction m_Character_Jump;
     private readonly InputAction m_Character_Movement;
+    private readonly InputAction m_Character_Look;
     public struct CharacterActions
     {
         private @InputActions m_Wrapper;
         public CharacterActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Jump => m_Wrapper.m_Character_Jump;
         public InputAction @Movement => m_Wrapper.m_Character_Movement;
+        public InputAction @Look => m_Wrapper.m_Character_Look;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -281,6 +304,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Movement.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMovement;
+                @Look.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnLook;
             }
             m_Wrapper.m_CharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -291,6 +317,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
             }
         }
     }
@@ -299,5 +328,6 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     {
         void OnJump(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
     }
 }

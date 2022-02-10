@@ -6,6 +6,7 @@ using UnityEngine;
 public class WalkMovement : BaseMovement
 {
     private InputActions actions;
+    private Camera cam;
 
     private float maximumSpeed => movementData.maximumSpeed;
     private float acceleration => movementData.acceleration;
@@ -22,12 +23,13 @@ public class WalkMovement : BaseMovement
         actions = new InputActions();
         actions.Enable();
         actions.Character.Movement.performed += Movement_performed;
+        cam = Camera.main;
     }
 
     private void Movement_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         targetDirection = obj.ReadValue<Vector2>();
-        targetSpeed = targetDirection == Vector2.zero ? 0 : maximumSpeed;    
+        targetSpeed = targetDirection == Vector2.zero ? 0 : maximumSpeed;
     }
 
     public override void Update()
@@ -49,6 +51,15 @@ public class WalkMovement : BaseMovement
 
     private void Move()
     {
-        Movement = new Vector3(currentDirection.x, 0, currentDirection.y) * currentSpeed;
+        Vector3 camForward = cam.transform.forward;
+        camForward.y = 0;
+        camForward.Normalize();
+
+        Vector3 camRight = cam.transform.right;
+        camRight.y = 0;
+        camRight.Normalize();
+
+        Vector3 movement = camForward * currentDirection.y + camRight * currentDirection.x;
+        Movement = movement * currentSpeed;
     }
 }

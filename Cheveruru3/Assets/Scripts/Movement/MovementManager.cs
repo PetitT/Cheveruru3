@@ -8,9 +8,12 @@ public class MovementManager : MonoSingleton<MovementManager>
 {
     [SerializeField] private GameObject character;
     [SerializeField] private GameObject groundCheck;
+    [SerializeField] private GameObject cameraTarget;
     [SerializeField] private LayerMask groundLayer;
+    public GameObject Character => character;
     public GameObject GroundCheck => groundCheck;
     public LayerMask GroundLayer => groundLayer;
+    public GameObject CameraTarget => cameraTarget;
 
     private MovementData movementData;
     public MovementData Data => movementData ??= MovementData.GetMovementData();
@@ -49,5 +52,13 @@ public class MovementManager : MonoSingleton<MovementManager>
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.transform.position, 0.4f);
+
+        Transform camera = Camera.main.transform;
+        Vector3 camPos = camera.position;
+        Vector3 dir = camera.forward;
+        dir.y = 0;
+        dir.Normalize();
+
+        Gizmos.DrawLine(camPos, camPos + dir);
     }
 }

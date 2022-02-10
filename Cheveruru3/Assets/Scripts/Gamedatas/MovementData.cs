@@ -11,11 +11,12 @@ public class MovementData : ScriptableObject
     public float directionChangeAcceleration = 7;
 
     [Header("Jump")]
-    public float GroundCheckRadius = 0.4f;
+    public float InitialJumpForce = 15f;
     public float DefaultGravity = -50f;
     public float JumpCancelGravity = -100f;
     public float JumpApexGravity = -10f;
-    public float InitialJumpForce = 15f;
+    public float TerminalVelocity = -10f;
+    public float GroundCheckRadius = 0.4f;
     public float TimeBeforeGroundCheck = 0.1f;
     public float JumpRequestBufferTime = 0.1f;
     public float CoyoteTime = 0.5f;

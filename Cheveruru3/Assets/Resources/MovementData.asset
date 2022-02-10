@@ -15,11 +15,12 @@ MonoBehaviour:
   maximumSpeed: 12
   acceleration: 30
   directionChangeAcceleration: 7
-  GroundCheckRadius: 0.4
+  InitialJumpForce: 20
   DefaultGravity: -75
   JumpCancelGravity: -150
   JumpApexGravity: -10
-  InitialJumpForce: 20
+  TerminalVelocity: -20
+  GroundCheckRadius: 0.4
   TimeBeforeGroundCheck: 0.1
   JumpRequestBufferTime: 0.2
   CoyoteTime: 0.5

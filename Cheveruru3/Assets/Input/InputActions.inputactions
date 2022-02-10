@@ -22,6 +22,15 @@
                     "processors": "NormalizeVector2",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Look",
+                    "type": "PassThrough",
+                    "id": "13e94b6b-8f46-46d9-b2f6-15172c9a3e69",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -83,7 +92,7 @@
                 {
                     "name": "Left",
                     "id": "1413c09a-54ed-4301-8d3f-0129d6b626f5",
-                    "path": "",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -94,7 +103,7 @@
                 {
                     "name": "Right",
                     "id": "0c4104aa-f25c-48b5-8c0d-7eaebf69c081",
-                    "path": "",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -165,6 +174,17 @@
                     "processors": "StickDeadzone",
                     "groups": "",
                     "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "94169c2e-01f0-4948-9b77-f1f315a48e8e",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
