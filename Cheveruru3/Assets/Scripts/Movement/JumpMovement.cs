@@ -8,18 +8,24 @@ public class JumpMovement : BaseMovement
 {
     private InputActions actions;
 
-    private float groundCheckRadius = 0.4f;
-    private float gravity = -50f;
-    private float initialJumpForce = 15f;
-    private float timeBeforeGroundCheck = 0.5f;
-    private float jumpRequestBufferTime = 0.1f;
-    private float coyoteTime = 0.5f;
+    private float groundCheckRadius => movementData.GroundCheckRadius;
+    private float defaultGravity => movementData.DefaultGravity;
+    private float jumpCancelGravity => movementData.JumpCancelGravity;
+    private float jumpApexGravity => movementData.JumpApexGravity;
+    private float initialJumpForce => movementData.InitialJumpForce;
+    private float timeBeforeGroundCheck => movementData.TimeBeforeGroundCheck;
+    private float jumpRequestBufferTime => movementData.JumpRequestBufferTime;
+    private float coyoteTime => movementData.CoyoteTime;
+    private float jumpApexGravityTime => movementData.JumpApexGravityTime;
 
+    private float currentGravity;
     private float currentYForce;
-    private bool isGrounded;
     private float remainingTimeToGroundCheck;
     private float remainingJumpRequestBufferTime;
     private float remainingCoyoteTime;
+    private float remainingJumpApexGravityTime;
+    private bool isGrounded;
+    private bool hasReachedApex;
 
     public override void Initialize()
     {
@@ -27,6 +33,12 @@ public class JumpMovement : BaseMovement
         actions.Enable();
 
         actions.Character.Jump.performed += Jump_performed;
+        actions.Character.Jump.canceled += Jump_canceled;
+    }
+
+    private void Jump_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        currentGravity = jumpCancelGravity;
     }
 
     private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -46,12 +58,20 @@ public class JumpMovement : BaseMovement
     {
         if (!isGrounded)
         {
-            currentYForce += gravity * Time.deltaTime;
+            currentYForce += currentGravity * Time.deltaTime;
+            if(!hasReachedApex && (currentYForce < 0))
+            {
+                currentGravity = jumpApexGravity;
+                remainingJumpApexGravityTime = jumpApexGravityTime;
+                hasReachedApex = true;
+            }
         }
         else
         {
             currentYForce = 0;
         }
+
+        Timer.CountDown(ref remainingJumpApexGravityTime, () => currentGravity = defaultGravity);
     }
 
     private void CheckForGround()
@@ -65,6 +85,7 @@ public class JumpMovement : BaseMovement
             if (isGrounded)
             {
                 remainingCoyoteTime = coyoteTime;
+                hasReachedApex = false;
             }
         }
     }
@@ -86,6 +107,7 @@ public class JumpMovement : BaseMovement
     private void Jump()
     {
         currentYForce = initialJumpForce;
+        currentGravity = defaultGravity;
         remainingTimeToGroundCheck = timeBeforeGroundCheck;
         remainingCoyoteTime = 0;
         isGrounded = false;

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2bc3a3e9bd9c654fa8855cd8e153492, type: 3}
+  m_Name: MovementData
+  m_EditorClassIdentifier: 
+  maximumSpeed: 12
+  acceleration: 30
+  directionChangeAcceleration: 7
+  GroundCheckRadius: 0.4
+  DefaultGravity: -75
+  JumpCancelGravity: -150
+  JumpApexGravity: -10
+  InitialJumpForce: 20
+  TimeBeforeGroundCheck: 0.1
+  JumpRequestBufferTime: 0.2
+  CoyoteTime: 0.5
+  JumpApexGravityTime: 0.05

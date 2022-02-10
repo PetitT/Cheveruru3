@@ -7,9 +7,9 @@ public class WalkMovement : BaseMovement
 {
     private InputActions actions;
 
-    private float maximumSpeed = 10;
-    private float acceleration = 10;
-    private float directionChangeAcceleration = 7;
+    private float maximumSpeed => movementData.maximumSpeed;
+    private float acceleration => movementData.acceleration;
+    private float directionChangeAcceleration => movementData.directionChangeAcceleration;
 
     private float targetSpeed;
     private float currentSpeed;

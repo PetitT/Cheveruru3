@@ -6,6 +6,9 @@ public abstract class BaseMovement
 {
     public Vector3 Movement { get; protected set; }
 
+    protected MovementManager movementManager => MovementManager.Instance;
+    protected MovementData movementData => movementManager.Data;
+
     public abstract void Initialize();
     public abstract void Update();
 }

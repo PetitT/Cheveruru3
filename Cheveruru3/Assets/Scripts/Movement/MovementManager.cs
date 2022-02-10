@@ -12,6 +12,9 @@ public class MovementManager : MonoSingleton<MovementManager>
     public GameObject GroundCheck => groundCheck;
     public LayerMask GroundLayer => groundLayer;
 
+    private MovementData movementData;
+    public MovementData Data => movementData ??= MovementData.GetMovementData();
+
     private WalkMovement walkMovement = new WalkMovement();
     private JumpMovement jumpMovement = new JumpMovement();
 
