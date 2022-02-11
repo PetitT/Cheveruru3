@@ -15,7 +15,6 @@ MonoBehaviour:
   maximumSpeed: 12
   acceleration: 30
   directionChangeAcceleration: 7
-  wallCheckDistance: 0.5
   InitialJumpForce: 20
   DefaultGravity: -75
   JumpCancelGravity: -150
@@ -63,3 +62,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  wallCheckDistance: 0.5
+  sphereCastWidth: 0.35
