@@ -22,6 +22,17 @@ public class MovementData : ScriptableObject
     public float CoyoteTime = 0.5f;
     public float JumpApexGravityTime = 0.05f;
 
+    [Header("Dash")]
+    public float DashForce;
+    public float DashForceFalloff;
+    public float DashCooldown;
+    public float DashBufferTime;
+    public AnimationCurve DashForceCurve;
+
+    [Header("Collision")]
+    public float wallCheckDistance = 1;
+    public float sphereCastWidth;
+
     public static MovementData GetMovementData()
     { 
         return Resources.Load<MovementData>("MovementData");

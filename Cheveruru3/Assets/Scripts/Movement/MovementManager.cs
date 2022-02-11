@@ -10,23 +10,27 @@ public class MovementManager : MonoSingleton<MovementManager>
     [SerializeField] private GameObject groundCheck;
     [SerializeField] private GameObject cameraTarget;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask wallLayer;
     public GameObject Character => character;
     public GameObject GroundCheck => groundCheck;
     public LayerMask GroundLayer => groundLayer;
+    public LayerMask WallLayer => wallLayer;
     public GameObject CameraTarget => cameraTarget;
 
     private MovementData movementData;
     public MovementData Data => movementData ??= MovementData.GetMovementData();
 
-    private WalkMovement walkMovement = new WalkMovement();
-    private JumpMovement jumpMovement = new JumpMovement();
+    public WalkMovement WalkMovement { get; private set; } = new WalkMovement();
+    public JumpMovement JumpMovement { get; private set; } = new JumpMovement();
+    public DashMovement DashMovement { get; private set; } = new DashMovement();
 
     private List<BaseMovement> movements = new List<BaseMovement>();
 
     private void Awake()
     {
-        movements.Add(walkMovement);
-        movements.Add(jumpMovement);
+        movements.Add(WalkMovement);
+        movements.Add(JumpMovement);
+        movements.Add(DashMovement);
 
         movements.ForEach(t => t.Initialize());
     }

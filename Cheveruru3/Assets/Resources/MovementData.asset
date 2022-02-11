@@ -15,6 +15,7 @@ MonoBehaviour:
   maximumSpeed: 12
   acceleration: 30
   directionChangeAcceleration: 7
+  wallCheckDistance: 0.5
   InitialJumpForce: 20
   DefaultGravity: -75
   JumpCancelGravity: -150
@@ -25,3 +26,40 @@ MonoBehaviour:
   JumpRequestBufferTime: 0.2
   CoyoteTime: 0.5
   JumpApexGravityTime: 0.05
+  DashForce: 50
+  DashForceFalloff: 100
+  DashCooldown: 0.5
+  DashBufferTime: 5
+  DashForceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0026292722
+      value: 0.9007353
+      inSlope: 1.8764486
+      outSlope: 1.8764486
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16315804
+    - serializedVersion: 3
+      time: 0.1254943
+      value: 1.0012808
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2
+      value: 0.70789844
+      inSlope: -9.0534725
+      outSlope: -9.0534725
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.05701608
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

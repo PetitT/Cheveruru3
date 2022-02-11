@@ -38,8 +38,16 @@ public class JumpMovement : BaseMovement
 
         actions.Character.Jump.performed += Jump_performed;
         actions.Character.Jump.canceled += Jump_canceled;
+
+        movementManager.DashMovement.onDashBegin += DashMovement_onDashBegin;
+
         initialCameraYPos = movementManager.CameraTarget.transform.localPosition.y;
         currentGravity = defaultGravity;
+    }
+
+    private void DashMovement_onDashBegin()
+    {
+        Jump(10);
     }
 
     private void Jump_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -92,8 +100,10 @@ public class JumpMovement : BaseMovement
 
     private void CheckForGround()
     {
+
         remainingTimeToGroundCheck -= Time.deltaTime;
         remainingCoyoteTime -= Time.deltaTime;
+
 
         if (remainingTimeToGroundCheck <= 0)
         {
@@ -113,16 +123,16 @@ public class JumpMovement : BaseMovement
         {
             if (isGrounded || remainingCoyoteTime > 0)
             {
-                Jump();
+                Jump(initialJumpForce);
             }
         }
 
         remainingJumpRequestBufferTime -= Time.deltaTime;
     }
 
-    private void Jump()
+    private void Jump(float force)
     {
-        currentYForce = initialJumpForce;
+        currentYForce = force;
         currentGravity = defaultGravity;
         remainingTimeToGroundCheck = timeBeforeGroundCheck;
         remainingCoyoteTime = 0;
