@@ -63,4 +63,5 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   wallCheckDistance: 0.5
+  minDistanceFromGround: 0.75
   sphereCastWidth: 0.35

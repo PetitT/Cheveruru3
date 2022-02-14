@@ -26,7 +26,7 @@ public class JumpMovement : BaseMovement
     private float remainingJumpRequestBufferTime;
     private float remainingCoyoteTime;
     private float remainingJumpApexGravityTime;
-    private bool isGrounded = false;
+    public bool IsGrounded  { get; private set; }
     private bool hasReachedApex = false;
     private float targetCameraYPos;
     private float initialCameraYPos;
@@ -71,7 +71,7 @@ public class JumpMovement : BaseMovement
 
     private void MoveCameraTarget()
     {
-        float targetY = isGrounded ? initialCameraYPos : targetCameraYPos;
+        float targetY = IsGrounded ? initialCameraYPos : targetCameraYPos;
         float distance = Mathf.Abs(cameraTarget.transform.position.y - targetY);
         float newY = Mathf.MoveTowards(cameraTarget.transform.position.y, targetY, distance * Time.deltaTime);
         movementManager.CameraTarget.transform.position = new Vector3(movementManager.Character.transform.position.x, newY, movementManager.Character.transform.position.z);
@@ -79,7 +79,7 @@ public class JumpMovement : BaseMovement
 
     private void ApplyGravity()
     {
-        if (!isGrounded)
+        if (!IsGrounded)
         {
             currentYForce += currentGravity * Time.deltaTime;
             currentYForce = Mathf.Max(currentYForce, terminalVelocity);
@@ -107,8 +107,8 @@ public class JumpMovement : BaseMovement
 
         if (remainingTimeToGroundCheck <= 0)
         {
-            isGrounded = Physics.OverlapSphere(MovementManager.Instance.GroundCheck.transform.position, groundCheckRadius, MovementManager.Instance.GroundLayer).Length > 0;
-            if (isGrounded)
+            IsGrounded = Physics.OverlapSphere(MovementManager.Instance.GroundCheck.transform.position, groundCheckRadius, MovementManager.Instance.GroundLayer).Length > 0;
+            if (IsGrounded)
             {
                 remainingCoyoteTime = coyoteTime;
                 hasReachedApex = false;
@@ -121,7 +121,7 @@ public class JumpMovement : BaseMovement
     {
         if (remainingJumpRequestBufferTime > 0)
         {
-            if (isGrounded || remainingCoyoteTime > 0)
+            if (IsGrounded || remainingCoyoteTime > 0)
             {
                 Jump(initialJumpForce);
             }
@@ -136,7 +136,7 @@ public class JumpMovement : BaseMovement
         currentGravity = defaultGravity;
         remainingTimeToGroundCheck = timeBeforeGroundCheck;
         remainingCoyoteTime = 0;
-        isGrounded = false;
+        IsGrounded = false;
         targetCameraYPos = movementManager.CameraTarget.transform.position.y;
     }
 }

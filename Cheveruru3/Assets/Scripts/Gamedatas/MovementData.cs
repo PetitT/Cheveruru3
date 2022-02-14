@@ -31,6 +31,8 @@ public class MovementData : ScriptableObject
 
     [Header("Collision")]
     public float wallCheckDistance = 1;
+    public float minDistanceFromGround;
+    public float movementCorrectionSpeed = 1f;
     public float sphereCastWidth;
 
     public static MovementData GetMovementData()
