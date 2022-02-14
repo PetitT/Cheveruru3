@@ -24,6 +24,7 @@ public class MovementManager : MonoSingleton<MovementManager>
     public JumpMovement JumpMovement { get; private set; } = new JumpMovement();
     public DashMovement DashMovement { get; private set; } = new DashMovement();
     public GroundDistanceCorrectionMovement GroundDistanceCorrectionMovement { get; private set; } = new GroundDistanceCorrectionMovement();
+    public BumpMovement BumpMovement { get; private set; } = new BumpMovement();
 
     private List<BaseMovement> movements = new List<BaseMovement>();
 
@@ -33,6 +34,7 @@ public class MovementManager : MonoSingleton<MovementManager>
         movements.Add(JumpMovement);
         movements.Add(DashMovement);
         movements.Add(GroundDistanceCorrectionMovement);
+        movements.Add(BumpMovement);
 
         movements.ForEach(t => t.Initialize());
     }

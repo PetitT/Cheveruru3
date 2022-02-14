@@ -29,6 +29,10 @@ public class MovementData : ScriptableObject
     public float DashBufferTime;
     public AnimationCurve DashForceCurve;
 
+    [Header("Bump")]
+    public float BumpForce;
+    public float BumpFalloff;
+
     [Header("Collision")]
     public float wallCheckDistance = 1;
     public float minDistanceFromGround;
