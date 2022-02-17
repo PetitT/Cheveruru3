@@ -62,7 +62,7 @@ public class DashMovement : BaseMovement
             Vector2 moveDirection = movementManager.WalkMovement.targetDirection;
 
             //Should find a way to dash forward when not moving
-            if(moveDirection == Vector2.zero)
+            if (moveDirection == Vector2.zero)
             {
                 moveDirection = movementManager.Character.transform.forward;
             }
@@ -107,6 +107,7 @@ public class DashMovement : BaseMovement
             {
                 Movement = Vector3.zero;
             }
+
             else
             {
                 Movement = Vector3.MoveTowards(Movement, Vector3.zero, speedFalloff * Time.deltaTime);

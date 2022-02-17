@@ -70,16 +70,17 @@ public class WalkMovement : BaseMovement
         camRight.Normalize();
 
         Vector3 movement = camForward * currentDirection.y + camRight * currentDirection.x;
-
-        CheckForWalls(movement);
+        CheckForWalls(ref movement);
         Movement = movement * currentSpeed;
     }
 
-    private void CheckForWalls(Vector3 movement)
+    private void CheckForWalls(ref Vector3 movement)
     {
         if (Physics.SphereCast(movementManager.Character.transform.position, wallCheckWidth, movement, out RaycastHit hit, wallCheckDistance, wallLayer))
         {
-            currentSpeed = 0;
+            Vector3 firstCross = Vector3.Cross(movement, hit.normal);
+            Vector3 cross = Vector3.Cross(-firstCross, hit.normal);
+            movement = cross;
         }
     }
 }
