@@ -1,0 +1,18 @@
+{
+    "name": "com.Cheveruru.Scripts",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0045bd693a6b904429029c2fb14b41d6",
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

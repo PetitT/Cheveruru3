@@ -57,6 +57,11 @@ public class JumpMovement : BaseMovement
 
     private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        PerformJump();
+    }
+
+    public void PerformJump()
+    {
         remainingJumpRequestBufferTime = jumpRequestBufferTime;
     }
 
